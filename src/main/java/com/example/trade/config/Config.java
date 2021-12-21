@@ -26,8 +26,8 @@ public class Config implements InitializingBean
         User organizer = new User();
         User user = new User();
         List<Bid> bids = List.of(
-                new Bid(null, LocalDateTime.now(), new BigDecimal("0.00"), organizer),
-                new Bid(null, LocalDateTime.now(), new BigDecimal("0.00"), organizer)
+                new Bid(null, LocalDateTime.now().minusSeconds(1), new BigDecimal("1.00"), organizer),
+                new Bid(null, LocalDateTime.now(), new BigDecimal("2.00"), organizer)
         );
 
         Auction auction = new Auction();

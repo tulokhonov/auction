@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -69,5 +71,13 @@ public class Auction
 
     public void makeBid(Bid bid) {
         this.bids.add(bid);
+    }
+
+    /**
+     * Ищет максимальную ставку
+     * @return максимальная ставка
+     */
+    public Optional<BigDecimal> getMaxBid() {
+        return this.bids.stream().map(Bid::getValue).max(Comparator.naturalOrder());
     }
 }

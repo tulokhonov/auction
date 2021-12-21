@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -28,10 +30,20 @@ public class AuctionController
     @Transactional
     public BidResponse makeBid(@RequestBody BidRequest request)
     {
-        Auction auction = auctionRepository.getById(request.getAuctionId());
-        User user = userRepository.getById(request.getUserId());
+        Auction auction = auctionRepository.findById(request.getAuctionId())
+                .orElseThrow(IllegalArgumentException::new);
 
-        auction.makeBid(new Bid(null, LocalDateTime.now(), request.getValue(), user));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(IllegalArgumentException::new);
+
+        BigDecimal max = auction.getMaxBid().orElse(BigDecimal.ZERO);
+
+        if (request.getValue().compareTo(max) > 0)
+            auction.makeBid(new Bid(null, LocalDateTime.now(), request.getValue(), user));
+        else {
+            log.warn("Ставка {} меньше максимальной в аукционе {}", request.getValue(), max);
+            return new BidResponse(false, LocalDateTime.now());
+        }
 
         return new BidResponse(true, LocalDateTime.now());
     }
