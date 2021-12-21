@@ -41,14 +41,14 @@ public class Auction {
     
     private Boolean withVAT;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "organizer_id")
-    private AuctionOrganizer organizer;
+    private User organizer;
     
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
     
     @ManyToMany(mappedBy = "auctions",fetch = FetchType.EAGER)
-    private List<AuctionOrganizer> participants;
+    private List<User> participants;
 }

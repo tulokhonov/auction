@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "bid_organizer")
 @Entity
-public class AuctionOrganizer {
+public class User {
     
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +33,6 @@ public class AuctionOrganizer {
     
 	private String managerName;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Auction> auctions;
-	
 }
