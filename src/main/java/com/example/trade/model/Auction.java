@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Auction {
+public class Auction
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -64,5 +65,9 @@ public class Auction {
     public void removeUser(User user) {
         this.participants.remove(user);
         user.getAuctions().remove(this);
+    }
+
+    public void makeBid(Bid bid) {
+        this.bids.add(bid);
     }
 }

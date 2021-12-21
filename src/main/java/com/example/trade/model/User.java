@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Setter
 @Table(name = "user")
 @Entity
-public class User {
-    
+public class User
+{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
