@@ -1,6 +1,5 @@
 package com.example.trade.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,21 +18,37 @@ public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     private String region;
+    
     private String name;
+    
     private LocalDateTime startDateTime;
+    
     private LocalDateTime registrationDateTime;
+    
     private LocalDateTime endDateTime;
+    
     private String rules;
+    
     private BigDecimal startPrice;
+    
     private BigDecimal priceStep;
+    
     private Integer bidWindow;
+    
     private String priceForm;
+    
     private Boolean withVAT;
+    
     @OneToOne
     @JoinColumn(name = "organizer_id")
     private AuctionOrganizer organizer;
+    
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
+    
+    @ManyToMany(mappedBy = "auctions",fetch = FetchType.EAGER)
+    private List<AuctionOrganizer> participants;
 }
