@@ -33,6 +33,6 @@ public class User {
     
 	private String managerName;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Auction> auctions;
 }
