@@ -44,7 +44,7 @@ public class Auction
     
     private Boolean withVAT;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
