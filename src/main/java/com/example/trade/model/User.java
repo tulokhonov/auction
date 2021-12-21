@@ -3,13 +3,14 @@ package com.example.trade.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@Table(name = "bid_organizer")
+@Table(name = "user")
 @Entity
 public class User {
     
@@ -33,6 +34,6 @@ public class User {
     
 	private String managerName;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Auction> auctions;
+	@ManyToMany(mappedBy = "participants")
+    private List<Auction> auctions = new ArrayList<>();
 }
