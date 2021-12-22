@@ -2,6 +2,7 @@ package com.example.trade.controller;
 
 import com.example.trade.dto.BidRequest;
 import com.example.trade.dto.BidResponse;
+import com.example.trade.error.BidException;
 import com.example.trade.model.Auction;
 import com.example.trade.model.Bid;
 import com.example.trade.model.User;
@@ -31,10 +32,10 @@ public class AuctionController
     public BidResponse makeBid(@RequestBody BidRequest request)
     {
         Auction auction = auctionRepository.findById(request.getAuctionId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Неверный номер аукциона"));
 
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Неверный пользователь"));
 
         BigDecimal max = auction.getMaxBid().orElse(BigDecimal.ZERO);
 
@@ -42,7 +43,7 @@ public class AuctionController
             auction.makeBid(new Bid(null, LocalDateTime.now(), request.getValue(), user));
         else {
             log.warn("Ставка {} меньше максимальной в аукционе {}", request.getValue(), max);
-            return new BidResponse(false, LocalDateTime.now());
+            throw new BidException("Ставка меньше максимальной");
         }
 
         return new BidResponse(true, LocalDateTime.now());

@@ -17,7 +17,7 @@ class AuctionControllerTest
     @Autowired private MockMvc mockMvc;
 
     @Test
-    void bidTestForAuction1_User3() throws Exception {
+    void givenSmallBid_whenBid_thenFail() throws Exception {
         String json = "{\n" +
                 "    \"user_id\" : 3,\n" +
                 "    \"auction_id\" : 1,\n" +
@@ -28,6 +28,21 @@ class AuctionControllerTest
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void givenWrongAuctionId_whenBid_thenFail() throws Exception {
+        String json = "{\n" +
+                "    \"user_id\" : 3,\n" +
+                "    \"auction_id\" : 100,\n" +
+                "    \"value\" : 1.00\n" +
+                "}";
+
+        mockMvc.perform(post("/auction")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
