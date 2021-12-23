@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
 {
     @ExceptionHandler(value = IllegalArgumentException.class)
-    protected ResponseEntity<Object> handleIllegalArgument(RuntimeException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
         ex.printStackTrace();
         log.warn("Failed request: {}", ex.getMessage());
         ErrorResponse response = new ErrorResponse(1, ex.getMessage());
@@ -25,11 +25,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(value = BidException.class)
-    protected ResponseEntity<Object> handleBidException(RuntimeException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleBidException(BidException ex, WebRequest request) {
         ex.printStackTrace();
         log.warn("Failed request: {}", ex.getMessage());
         ErrorResponse response = new ErrorResponse(2, ex.getMessage());
 
         return handleExceptionInternal(ex, response, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request)
+    {
+        log.error("Unknown error", e);
+        return new ResponseEntity<>(new ErrorResponse(500, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
