@@ -52,7 +52,11 @@ public class Auction
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
     @JoinTable(name = "auction_user",
             joinColumns = @JoinColumn(name = "auction_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
