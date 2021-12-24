@@ -24,16 +24,28 @@ public class Config implements InitializingBean
     @Override
     public void afterPropertiesSet() throws Exception {
         User organizer = new User();
+        organizer.setName("John");
+
         User user = new User();
+        user.setName("Jack");
+
+        User user2 = new User();
+        user2.setName("Paul");
+
         List<Bid> bids = List.of(
-                new Bid(null, LocalDateTime.now().minusSeconds(1), new BigDecimal("1.00"), organizer),
-                new Bid(null, LocalDateTime.now(), new BigDecimal("2.00"), organizer)
+                new Bid(null, LocalDateTime.now().minusSeconds(1), new BigDecimal("1.00"), user),
+                new Bid(null, LocalDateTime.now(), new BigDecimal("2.00"), user),
+                new Bid(null, LocalDateTime.now(), new BigDecimal("2.01"), user2)
         );
 
         Auction auction = new Auction();
+        auction.setName("Auction 1");
+
         auction.setBids(bids);
-        auction.setOrganizer(organizer);
+
+
         auction.addUser(user);
+        auction.addUser(user2);
         auctionRepository.save(auction);
     }
 }

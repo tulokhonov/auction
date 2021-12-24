@@ -34,6 +34,7 @@ public class User
     
 	private String managerName;
 	
-	@ManyToMany(mappedBy = "participants")
+	@ManyToMany(mappedBy = "participants", cascade =
+			{CascadeType.PERSIST, CascadeType.MERGE})
     private List<Auction> auctions = new ArrayList<>();
 }
