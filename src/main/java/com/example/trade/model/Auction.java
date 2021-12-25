@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -23,11 +23,11 @@ public class Auction
     
     private String name;
     
-    private LocalDateTime startDateTime;
+    private Instant startDateTime;
     
-    private LocalDateTime registrationDateTime;
+    private Instant registrationDateTime;
     
-    private LocalDateTime endDateTime;
+    private Instant endDateTime;
     
     private String rules;
     

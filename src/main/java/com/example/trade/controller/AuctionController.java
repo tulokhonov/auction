@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.Instant;
 
 @RestController
 @AllArgsConstructor
@@ -38,13 +37,13 @@ public class AuctionController
         BigDecimal max = auction.getMaxBid().orElse(BigDecimal.ZERO);
 
         if (request.getValue().compareTo(max) > 0)
-            auction.makeBid(new Bid(null, LocalDateTime.now(), request.getValue(), user));
+            auction.makeBid(new Bid(null, Instant.now(), request.getValue(), user));
         else {
             log.warn("Ставка {} меньше максимальной в аукционе {}", request.getValue(), max);
             throw new BidException("Ставка меньше максимальной");
         }
 
-        return new BidResponse(true, LocalDateTime.now());
+        return new BidResponse(true, Instant.now());
     }
 
     @PostMapping("/auction/delete/{id}")

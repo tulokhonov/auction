@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class Config implements InitializingBean
         user2.setName("Paul");
 
         List<Bid> bids = List.of(
-                new Bid(null, LocalDateTime.now().minusSeconds(1), new BigDecimal("1.00"), user),
-                new Bid(null, LocalDateTime.now(), new BigDecimal("2.00"), user),
-                new Bid(null, LocalDateTime.now(), new BigDecimal("2.01"), user2)
+                new Bid(null, Instant.now().minusSeconds(1), new BigDecimal("1.00"), user),
+                new Bid(null, Instant.now(), new BigDecimal("2.00"), user),
+                new Bid(null, Instant.now(), new BigDecimal("2.01"), user2)
         );
 
         Auction auction = new Auction();

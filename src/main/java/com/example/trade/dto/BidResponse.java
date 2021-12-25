@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 public class BidResponse
 {
     private boolean isOk;
-    private LocalDateTime time;
+    private Instant time;
 }
