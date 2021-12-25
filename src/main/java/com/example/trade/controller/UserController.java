@@ -21,21 +21,16 @@ public class UserController {
     @Transactional
     public void deleteUser(@PathVariable Long id)
     {
-        User user = em.find(User.class, id);
-
-        for (Auction a : user.getAuctions()) {
-            if (a.getParticipants().size() == 1) {
-                em.remove(a);
-            } else {
-                a.getParticipants().remove(user);
-            }
+        User u = em.find(User.class, id);
+        for (Auction a : u.getAuctions()) {
+            a.getParticipants().remove(u);
         }
         // Удаляем ставки
         em.createQuery("select b from Bid b where b.user = :user", Bid.class)
-                .setParameter("user", user).getResultList()
+                .setParameter("user", u).getResultList()
                 .forEach(b -> em.remove(b));
 
         // Удаляем юзера
-        em.remove(user);
+        em.remove(u);
     }
 }
