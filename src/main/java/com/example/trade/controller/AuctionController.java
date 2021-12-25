@@ -46,4 +46,11 @@ public class AuctionController
 
         return new BidResponse(true, LocalDateTime.now());
     }
+
+    @PostMapping("/auction/delete/{id}")
+    public void deleteAuction(@PathVariable Long id) {
+        Auction auction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such auction"));
+
+        auctionRepository.delete(auction);
+    }
 }

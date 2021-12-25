@@ -40,9 +40,8 @@ public class Config implements InitializingBean
 
         Auction auction = new Auction();
         auction.setName("Auction 1");
-
         auction.setBids(bids);
-
+        auction.setOrganizer(organizer);
 
         auction.addUser(user);
         auction.addUser(user2);

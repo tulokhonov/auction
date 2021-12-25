@@ -7,10 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 @Getter
@@ -44,7 +41,7 @@ public class Auction
     
     private Boolean withVAT;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
@@ -61,7 +58,7 @@ public class Auction
             joinColumns = @JoinColumn(name = "auction_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> participants = new ArrayList<>();
+    private Set<User> participants = new HashSet<>();
 
     public void addUser(User user) {
         this.participants.add(user);

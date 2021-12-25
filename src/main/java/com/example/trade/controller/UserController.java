@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,9 +23,8 @@ public class UserController {
     public void deleteUser(@PathVariable Long id)
     {
         User u = em.find(User.class, id);
-        for (Auction a : u.getAuctions()) {
-            a.getParticipants().remove(u);
-        }
+        List<Auction> auctions = new ArrayList<>(u.getAuctions());
+        auctions.forEach(a -> a.removeUser(u));
         // Удаляем ставки
         em.createQuery("select b from Bid b where b.user = :user", Bid.class)
                 .setParameter("user", u).getResultList()

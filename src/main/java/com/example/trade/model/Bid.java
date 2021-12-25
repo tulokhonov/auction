@@ -22,7 +22,7 @@ public class Bid
     private LocalDateTime time;
     private BigDecimal value;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.PERSIST })
     @JoinColumn(name = "user_id")
     private User user;
 }
