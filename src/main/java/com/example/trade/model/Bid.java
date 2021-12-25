@@ -23,7 +23,7 @@ public class Bid
     private Instant time;
     private BigDecimal value;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.PERSIST })
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "user_id")
     private User user;
 }

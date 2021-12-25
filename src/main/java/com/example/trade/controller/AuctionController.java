@@ -19,12 +19,13 @@ import java.time.Instant;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@RequestMapping("/auction")
 public class AuctionController
 {
     private final AuctionRepository auctionRepository;
     private final UserRepository userRepository;
 
-    @PostMapping("/auction")
+    @PostMapping("")
     @Transactional
     public BidResponse makeBid(@RequestBody BidRequest request)
     {
@@ -46,9 +47,11 @@ public class AuctionController
         return new BidResponse(true, Instant.now());
     }
 
-    @PostMapping("/auction/delete/{id}")
-    public void deleteAuction(@PathVariable Long id) {
-        Auction auction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such auction"));
+    @PostMapping("/delete/{id}")
+    public void deleteAuction(@PathVariable Long id)
+    {
+        Auction auction = auctionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No such auction"));
 
         auctionRepository.delete(auction);
     }

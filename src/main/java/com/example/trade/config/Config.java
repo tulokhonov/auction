@@ -34,8 +34,8 @@ public class Config implements InitializingBean
         user2.setName("Paul");
 
         List<Bid> bids = List.of(
-                new Bid(null, Instant.now().minusSeconds(1), new BigDecimal("1.00"), user),
-                new Bid(null, Instant.now(), new BigDecimal("2.00"), user),
+                new Bid(null, Instant.now().minusSeconds(2), new BigDecimal("1.00"), user),
+                new Bid(null, Instant.now().minusSeconds(1), new BigDecimal("2.00"), user),
                 new Bid(null, Instant.now(), new BigDecimal("2.01"), user2)
         );
 
@@ -43,9 +43,9 @@ public class Config implements InitializingBean
         auction.setName("Auction 1");
         auction.setBids(bids);
         auction.setOrganizer(organizer);
-
         auction.addUser(user);
         auction.addUser(user2);
+
         auctionRepository.save(auction);
     }
 }

@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
@@ -41,19 +44,15 @@ public class Auction
     
     private Boolean withVAT;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = ALL)
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = ALL)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
     
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            })
+    @ManyToMany(fetch = LAZY, cascade = {PERSIST, MERGE})
     @JoinTable(name = "auction_user",
             joinColumns = @JoinColumn(name = "auction_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
