@@ -52,7 +52,7 @@ public class Auction
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
     
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                 CascadeType.PERSIST,
                 CascadeType.MERGE

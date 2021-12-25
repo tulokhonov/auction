@@ -8,18 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 @SpringBootTest
 class TradeApplicationTests {
-	@Autowired
-	private UserRepository repository;
 
 	@Test
 	void contextLoads() {
 	}
 
-	@Test
-	void test1() {
-		User user = repository.getById(3L);
-		repository.delete(user);
-	}
 }

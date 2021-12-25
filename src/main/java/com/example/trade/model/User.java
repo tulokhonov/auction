@@ -34,7 +34,6 @@ public class User
     
 	private String managerName;
 	
-	@ManyToMany(mappedBy = "participants", cascade =
-			{CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Auction> auctions = new ArrayList<>();
 }
