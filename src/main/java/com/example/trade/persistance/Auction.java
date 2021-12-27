@@ -1,4 +1,4 @@
-package com.example.trade.model;
+package com.example.trade.persistance;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,7 +44,7 @@ public class Auction
     
     private Boolean withVAT;
     
-    @ManyToOne(cascade = ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE})
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
@@ -69,8 +69,14 @@ public class Auction
         user.getAuctions().remove(this);
     }
 
-    public void makeBid(Bid bid) {
+    public void addBid(Bid bid) {
         this.bids.add(bid);
+        bid.setAuction(this);
+    }
+
+    public void removeBid(Bid bid) {
+        this.bids.remove(bid);
+        bid.setAuction(null);
     }
 
     /**

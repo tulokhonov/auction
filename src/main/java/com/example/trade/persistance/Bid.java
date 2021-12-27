@@ -1,4 +1,4 @@
-package com.example.trade.model;
+package com.example.trade.persistance;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,6 +21,10 @@ public class Bid
     private Long id;
     private Instant time;
     private BigDecimal value;
+
+    @ManyToOne
+    @JoinColumn(name = "auction_id")
+    private Auction auction;
 
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "user_id")

@@ -1,4 +1,4 @@
-package com.example.trade.model;
+package com.example.trade.persistance;
 
 import lombok.Getter;
 import lombok.Setter;

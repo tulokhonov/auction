@@ -1,6 +1,6 @@
 package com.example.trade.repository;
 
-import com.example.trade.model.User;
+import com.example.trade.persistance.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

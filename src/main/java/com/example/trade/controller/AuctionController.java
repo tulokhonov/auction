@@ -3,9 +3,9 @@ package com.example.trade.controller;
 import com.example.trade.dto.BidRequest;
 import com.example.trade.dto.BidResponse;
 import com.example.trade.error.BidException;
-import com.example.trade.model.Auction;
-import com.example.trade.model.Bid;
-import com.example.trade.model.User;
+import com.example.trade.persistance.Auction;
+import com.example.trade.persistance.Bid;
+import com.example.trade.persistance.User;
 import com.example.trade.repository.AuctionRepository;
 import com.example.trade.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ public class AuctionController
         BigDecimal max = auction.getMaxBid().orElse(BigDecimal.ZERO);
 
         if (request.getValue().compareTo(max) > 0)
-            auction.makeBid(new Bid(null, Instant.now(), request.getValue(), user));
+            auction.addBid(new Bid(null, Instant.now(), request.getValue(), auction, user));
         else {
             log.warn("Ставка {} меньше максимальной в аукционе {}", request.getValue(), max);
             throw new BidException("Ставка меньше максимальной");

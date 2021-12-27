@@ -1,16 +1,13 @@
 package com.example.trade.config;
 
-import com.example.trade.model.Auction;
-import com.example.trade.model.Bid;
-import com.example.trade.model.User;
+import com.example.trade.persistance.Auction;
+import com.example.trade.persistance.Bid;
+import com.example.trade.persistance.User;
 import com.example.trade.repository.AuctionRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -23,7 +20,8 @@ public class Config implements InitializingBean
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet()
+    {
         User organizer = new User();
         organizer.setName("John");
 
@@ -34,14 +32,16 @@ public class Config implements InitializingBean
         user2.setName("Paul");
 
         List<Bid> bids = List.of(
-                new Bid(null, Instant.now().minusSeconds(2), new BigDecimal("1.00"), user),
-                new Bid(null, Instant.now().minusSeconds(1), new BigDecimal("2.00"), user),
-                new Bid(null, Instant.now(), new BigDecimal("2.01"), user2)
+                new Bid(null, Instant.now().minusSeconds(2), new BigDecimal("1.00"), null, user),
+                new Bid(null, Instant.now().minusSeconds(1), new BigDecimal("2.00"), null, user),
+                new Bid(null, Instant.now(), new BigDecimal("2.01"), null, user2)
         );
 
         Auction auction = new Auction();
         auction.setName("Auction 1");
-        auction.setBids(bids);
+
+        bids.forEach(auction::addBid);
+
         auction.setOrganizer(organizer);
         auction.addUser(user);
         auction.addUser(user2);
