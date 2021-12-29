@@ -21,6 +21,9 @@ public class Auction
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Version
+    private Long version;
     
     private String region;
     
@@ -44,7 +47,7 @@ public class Auction
     
     private Boolean withVAT;
     
-    @ManyToOne(cascade = {PERSIST, MERGE})
+    @ManyToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
