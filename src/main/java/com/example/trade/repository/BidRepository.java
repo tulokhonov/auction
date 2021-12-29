@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface BidRepository extends JpaRepository<Bid, Long> {
     @Query("select b from Bid b where b.auction.id = :auctionId")
-    @Lock(LockModeType.PESSIMISTIC_READ)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Bid> getBids(Long auctionId);
 }
