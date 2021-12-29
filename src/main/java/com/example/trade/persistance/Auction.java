@@ -1,4 +1,4 @@
-package com.example.trade.model;
+package com.example.trade.persistance;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,11 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
+
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -21,16 +21,19 @@ public class Auction
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Version
+    private Long version;
     
     private String region;
     
     private String name;
     
-    private LocalDateTime startDateTime;
+    private Instant startDateTime;
     
-    private LocalDateTime registrationDateTime;
+    private Instant registrationDateTime;
     
-    private LocalDateTime endDateTime;
+    private Instant endDateTime;
     
     private String rules;
     
@@ -44,24 +47,20 @@ public class Auction
     
     private Boolean withVAT;
     
-    @ManyToOne
+    @ManyToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
     @JoinColumn(name = "organizer_id")
     private User organizer;
     
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = ALL)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids = new ArrayList<>();
     
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            })
+    @ManyToMany(fetch = LAZY, cascade = {PERSIST, MERGE})
     @JoinTable(name = "auction_user",
             joinColumns = @JoinColumn(name = "auction_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> participants = new ArrayList<>();
+    private Set<User> participants = new HashSet<>();
 
     public void addUser(User user) {
         this.participants.add(user);
@@ -73,8 +72,14 @@ public class Auction
         user.getAuctions().remove(this);
     }
 
-    public void makeBid(Bid bid) {
+    public void addBid(Bid bid) {
         this.bids.add(bid);
+        bid.setAuction(this);
+    }
+
+    public void removeBid(Bid bid) {
+        this.bids.remove(bid);
+        bid.setAuction(null);
     }
 
     /**

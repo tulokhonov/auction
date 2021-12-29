@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.OptimisticLockException;
+
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
@@ -29,6 +31,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         ex.printStackTrace();
         log.warn("Failed request: {}", ex.getMessage());
         ErrorResponse response = new ErrorResponse(2, ex.getMessage());
+
+        return handleExceptionInternal(ex, response, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = OptimisticLockException.class)
+    public final ResponseEntity<Object> handleOptimisticLockException(OptimisticLockException ex, WebRequest request) {
+        ex.printStackTrace();
+        log.warn("Optimistic lock failure: {}", ex.getMessage());
+        ErrorResponse response = new ErrorResponse(3, ex.getMessage());
 
         return handleExceptionInternal(ex, response, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

@@ -1,7 +1,5 @@
 package com.example.trade.dto;
 
-import com.example.trade.model.Auction;
-import com.example.trade.model.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

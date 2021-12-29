@@ -1,4 +1,4 @@
-package com.example.trade.model;
+package com.example.trade.persistance;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +34,6 @@ public class User
     
 	private String managerName;
 	
-	@ManyToMany(mappedBy = "participants")
+	@ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Auction> auctions = new ArrayList<>();
 }
