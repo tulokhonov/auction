@@ -1,6 +1,7 @@
 package com.example.trade.service;
 
 import com.example.trade.persistance.Auction;
+import com.example.trade.persistance.Bid;
 import com.example.trade.persistance.User;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,22 @@ public class AuctionServiceImpl implements AuctionService
     @Override
     public User findUserById(Long userId) {
         return entityManager.find(User.class, userId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = entityManager.find(User.class, userId);
+        entityManager.remove(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserBids(User user) {
+        // Удаляем ставки
+        entityManager.createQuery("select b from Bid b where b.user = :user", Bid.class)
+                .setParameter("user", user)
+                .getResultList()
+                .forEach(b -> entityManager.remove(b));
     }
 }

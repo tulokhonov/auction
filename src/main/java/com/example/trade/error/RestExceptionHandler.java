@@ -1,4 +1,4 @@
-package com.example.trade.controller;
+package com.example.trade.error;
 
 import com.example.trade.error.BidException;
 import com.example.trade.model.ErrorResponse;
