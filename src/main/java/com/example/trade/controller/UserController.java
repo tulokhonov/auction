@@ -3,6 +3,7 @@ package com.example.trade.controller;
 import com.example.trade.persistance.Auction;
 import com.example.trade.persistance.Bid;
 import com.example.trade.persistance.User;
+import com.example.trade.service.AuctionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,26 +20,23 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController
 {
-    private EntityManager em;
+    private AuctionService service;
 
     @PostMapping("/delete/{id}")
     @Transactional
     public void deleteUser(@PathVariable Long id)
     {
-        User user = em.find(User.class, id);
-        if (user == null) throw new IllegalArgumentException("User not found!");
+        User user = service.findUserById(id);
 
         // создаем новый список, так как изменять список во время цикла нельзя
         List<Auction> auctions = new ArrayList<>(user.getAuctions());
+        // удаляем юзера из аукциона
         auctions.forEach(auction -> auction.removeUser(user));
 
-        // Удаляем ставки
-        em.createQuery("select b from Bid b where b.user = :user", Bid.class)
-                .setParameter("user", user)
-                .getResultList()
-                .forEach(b -> em.remove(b));
+        // Удаляем ставки юзера
+        service.deleteUserBids(user);
 
         // Удаляем юзера
-        em.remove(user);
+        service.deleteUser(id);
     }
 }

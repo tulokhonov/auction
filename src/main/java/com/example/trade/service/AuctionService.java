@@ -6,7 +6,12 @@ import com.example.trade.persistance.User;
 public interface AuctionService
 {
     Auction findAuctionById(Long auctionId);
+
     void deleteAuction(Long auctionId);
 
     User findUserById(Long userId);
+
+    void deleteUser(Long userId);
+
+    void deleteUserBids(User user);
 }
