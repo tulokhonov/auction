@@ -39,6 +39,7 @@ public class Config implements InitializingBean
 
         Auction auction = new Auction();
         auction.setName("Auction 1");
+        auction.setStartPrice(new BigDecimal("0.50"));
 
         bids.forEach(auction::addBid);
 

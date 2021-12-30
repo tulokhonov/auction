@@ -35,7 +35,7 @@ public class AuctionController
         Auction auction = service.findAuctionById(request.getAuctionId());
         User user = service.findUserById(request.getUserId());
 
-        BigDecimal max = auction.getMaxBid().orElse(BigDecimal.ZERO);
+        BigDecimal max = auction.getMaxBid().orElse(auction.getStartPrice());
 
         if (request.getValue().compareTo(max) > 0)
             auction.addBid(new Bid(null, Instant.now(), request.getValue(), auction, user));
