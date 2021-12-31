@@ -32,8 +32,11 @@ public class AuctionController
     @Transactional
     public BidResponse makeBid(@RequestBody BidRequest request)
     {
-        Auction auction = service.findAuctionById(request.getAuctionId());
-        User user = service.findUserById(request.getUserId());
+        Auction auction = service.findAuctionById(request.getAuctionId())
+                .orElseThrow(() -> new IllegalArgumentException("Auction is not found"));
+
+        User user = service.findUserById(request.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User is not found"));
 
         BigDecimal max = auction.getMaxBid().orElse(auction.getStartPrice());
 

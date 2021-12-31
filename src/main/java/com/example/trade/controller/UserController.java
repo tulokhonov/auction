@@ -26,7 +26,8 @@ public class UserController
     @Transactional
     public void deleteUser(@PathVariable Long id)
     {
-        User user = service.findUserById(id);
+        User user = service.findUserById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User is not found"));
 
         // создаем новый список, так как изменять список во время цикла нельзя
         List<Auction> auctions = new ArrayList<>(user.getAuctions());

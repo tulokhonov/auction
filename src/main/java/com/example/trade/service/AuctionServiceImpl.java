@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class AuctionServiceImpl implements AuctionService
@@ -16,8 +17,8 @@ public class AuctionServiceImpl implements AuctionService
     private EntityManager entityManager;
 
     @Override
-    public Auction findAuctionById(Long auctionId) {
-        return entityManager.find(Auction.class, auctionId);
+    public Optional<Auction> findAuctionById(Long auctionId) {
+        return Optional.ofNullable(entityManager.find(Auction.class, auctionId));
     }
 
     @Override
@@ -28,8 +29,8 @@ public class AuctionServiceImpl implements AuctionService
     }
 
     @Override
-    public User findUserById(Long userId) {
-        return entityManager.find(User.class, userId);
+    public Optional<User> findUserById(Long userId) {
+        return Optional.ofNullable(entityManager.find(User.class, userId));
     }
 
     @Override

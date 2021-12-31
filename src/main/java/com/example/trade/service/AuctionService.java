@@ -3,13 +3,15 @@ package com.example.trade.service;
 import com.example.trade.persistance.Auction;
 import com.example.trade.persistance.User;
 
+import java.util.Optional;
+
 public interface AuctionService
 {
-    Auction findAuctionById(Long auctionId);
+    Optional<Auction> findAuctionById(Long auctionId);
 
     void deleteAuction(Long auctionId);
 
-    User findUserById(Long userId);
+    Optional<User> findUserById(Long userId);
 
     void deleteUser(Long userId);
 
